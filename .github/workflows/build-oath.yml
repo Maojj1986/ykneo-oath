@@ -21,7 +21,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Download Java Card SDK 2.2.2
-      run: |
+      run:  ant -DJAVACARD_HOME=$PWD/oracle_javacard_sdks/jc222_kit
         git clone https://github.com/martinpaljak/oracle_javacard_sdks.git
         echo "JC_HOME=$PWD/oracle_javacard_sdks/jc222_kit" >> $GITHUB_ENV
         echo "JC222=$PWD/oracle_javacard_sdks/jc222_kit" >> $GITHUB_ENV
