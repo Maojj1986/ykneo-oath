@@ -3,7 +3,7 @@ name: Build ykneo-oath CAP file
 on:
   push:
     branches: [ "master", "main" ]
-  workflow_dispatch: # 允许网页端手动触发
+  workflow_dispatch:
 
 jobs:
   build:
@@ -21,18 +21,15 @@ jobs:
         distribution: 'temurin'
 
     - name: Download Java Card SDK 2.2.2
-      run:  ant -DJAVACARD_HOME=$PWD/oracle_javacard_sdks/jc222_kit
+      run: |
         git clone https://github.com/martinpaljak/oracle_javacard_sdks.git
-        echo "JC_HOME=$PWD/oracle_javacard_sdks/jc222_kit" >> $GITHUB_ENV
-        echo "JC222=$PWD/oracle_javacard_sdks/jc222_kit" >> $GITHUB_ENV
 
     - name: Build with Ant
-      run: ant
+      run: ant -DJAVACARD_HOME=$PWD/oracle_javacard_sdks/jc222_kit
 
     - name: Upload CAP file artifact
       uses: actions/upload-artifact@v4
       with:
         name: ykneo-oath-cap
-        # 自动扫描并打包当前目录下生成的所有 .cap 文件
         path: '**/*.cap'
         retention-days: 7
